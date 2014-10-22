@@ -15,4 +15,4 @@ NEWSPIDER_MODULE = 'dataGatherer.spiders'
 #LOG_FILE="scrapy.log"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'dataGatherer (+http://www.yourdomain.com)'
+USER_AGENT = 'EMichMathDept(+http://www.emich.edu/math/)'
