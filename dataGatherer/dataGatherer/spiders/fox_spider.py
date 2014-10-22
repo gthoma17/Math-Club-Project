@@ -16,7 +16,6 @@ class FoxSpider(CrawlSpider):
     def parse_page(self, response):
         hxs = HtmlXPathSelector(response)
         item = FoxNewsItem()
-        print "!!!!!!!!!!!!!!!!!!!!!!" + str(response.xpath('//title/text()').extract())
         # Extract title
         item['title'] = response.xpath('//title/text()').extract() # XPath selector for title
         # Extract author
