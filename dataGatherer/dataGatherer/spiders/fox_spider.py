@@ -16,13 +16,13 @@ class FoxSpider(CrawlSpider):
     def parse_page(self, response):
         hxs = HtmlXPathSelector(response)
         item = FoxNewsItem()
-        # Extract title
-        item['title'] = response.xpath('//title/text()').extract() # XPath selector for title
-        # Extract author
-        item['url'] = response.url
+        # Extract word occurances (the reason we're here)
+        item['ebolaOccurances'] = str(response.xpath('.//text()').extract()).lower().count("ebola")
         # Extract the publish date
         item['publishDate'] = response.xpath('//time/@datetime').extract()
-        # Extract word occurances (the reason we're here)
-        item['ebolaOccurances'] = response.xpath('.//text()').extract().count("ebola")        
-
+        # Extract title
+        tmpStr = str(response.xpath('//title/text()').extract()) # XPath selector for title
+        item['title'] =    tmpStr[:tmpStr.index("|")]
+        # Extract url
+        item['url'] = response.url
         return item        
