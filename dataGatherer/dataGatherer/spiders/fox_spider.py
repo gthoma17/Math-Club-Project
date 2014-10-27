@@ -2,6 +2,7 @@ from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
 from dataGatherer.items import FoxNewsItem
+import articleUtils
 
 class FoxSpider(CrawlSpider):
     name = 'foxNews'
@@ -16,13 +17,20 @@ class FoxSpider(CrawlSpider):
     def parse_page(self, response):
         hxs = HtmlXPathSelector(response)
         item = FoxNewsItem()
-        # Extract word occurances (the reason we're here)
-        item['ebolaOccurances'] = str(response.xpath('.//text()').extract()).lower().count("ebola")
-        # Extract the publish date
-        item['publishDate'] = response.xpath('//time/@datetime').extract()
-        # Extract title
-        tmpStr = str(response.xpath('//title/text()').extract()) # XPath selector for title
-        item['title'] =    tmpStr[:tmpStr.index("|")]
-        # Extract url
-        item['url'] = response.url
+        ebolaCount = str(response.xpath('.//text()').extract()).lower().count("ebola")
+        if 0 != ebolaCount:  #contains ebola smoke test
+            analizedArticle = articleUtils.analizeArticle(response.url)
+            ebolaCount = analizedArticle["main_body"].lower().count("ebola")
+            if 0 != ebolaCount:  #contains ebola concrete test
+                # Extract word occurances (the reason we're here)
+                item['ebolaOccurances'] = ebolaCount
+                # Extract the publish date
+                item['publishDate'] = response.xpath('//time/@datetime').extract()
+                # Extract title
+                item['title'] = analizedArticle["title"]
+                # Extract url
+                item['url'] = response.url
+                # Get sentiment if it's an article we care about
+                sentiment = articleUtils.getsentiment(analizedArticle["main_body"])
+                item['sentiment'] = sentiment["pos"] - sentiment["neg"]
         return item        
