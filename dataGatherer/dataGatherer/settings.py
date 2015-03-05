@@ -8,7 +8,7 @@
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #
 
-BOT_NAME = 'EasternMichiganUniversityMathClub-PleaseDontBanMe'
+BOT_NAME = 'Emich_Math_Club'
 
 SPIDER_MODULES = ['dataGatherer.spiders']
 NEWSPIDER_MODULE = 'dataGatherer.spiders'

@@ -20,3 +20,8 @@ class CnnItem(scrapy.Item):
 	publishDate = scrapy.Field()
 	ebolaOccurances = scrapy.Field()
 	sentiment = scrapy.Field()
+class CatalogItem(scrapy.Item):
+	name = scrapy.Field()
+	url = scrapy.Field()
+	associated_classes = scrapy.Field()
+	total_credits = scrapy.Field()
