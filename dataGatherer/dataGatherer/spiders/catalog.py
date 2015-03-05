@@ -51,8 +51,8 @@ class CatalogSpider(CrawlSpider):
                 class_ids.append(thisId[27:])
 
         #prep the item for return
-        item.['name'] = response.xpath('//h1/text()').extract())
-        item.['total_credits'] = total_credits
-        item.['url'] = response.url
-        item.['associated_classes'] = class_ids
+        item['name'] = response.xpath('//h1/text()').extract()
+        item['total_credits'] = total_credits
+        item['url'] = response.url
+        item['associated_classes'] = class_ids
         return item
